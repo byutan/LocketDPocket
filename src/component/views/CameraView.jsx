@@ -138,7 +138,7 @@ export const CameraView = ({
           <Camera size={56} className="text-black/90 drop-shadow-md group-hover:scale-105 transition-transform" strokeWidth={2} />
         </button>
         <h1 className="text-4xl font-black text-white tracking-tight mb-2">Finance <span className="text-yellow-400">Locket</span></h1>
-        <p className="text-zinc-500 font-medium text-sm text-center">Chạm để chụp hóa đơn</p>
+        <p className="text-zinc-500 font-medium text-sm text-center">Locket the Pocket</p>
       </div>
 
       {/* Cụm Nút Công cụ (Thư viện & Nhập tay) */}
