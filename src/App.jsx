@@ -75,7 +75,7 @@ function App() {
   // --- RENDERING TỔNG THỂ ---
   return (
     <div className="fixed inset-0 flex justify-center bg-zinc-950 font-sans selection:bg-yellow-400 overscroll-none">
-      <div className="w-full max-w-md h-[100dvh] bg-black relative overflow-hidden sm:border-x sm:border-zinc-900 flex flex-col shadow-2xl">
+      <div className="w-full max-w-md h-dvh bg-black relative overflow-hidden sm:border-x sm:border-zinc-900 flex flex-col shadow-2xl">
 
         <Toast toast={toast} />
 

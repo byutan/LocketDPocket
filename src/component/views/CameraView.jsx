@@ -44,7 +44,7 @@ export const CameraView = ({
           </div>
         </div>
         <div className="flex-1 overflow-y-auto p-4 sm:p-5 pb-32 space-y-4 sm:space-y-6">
-          <div className="aspect-[4/3] bg-zinc-900 rounded-3xl sm:rounded-[2.5rem] overflow-hidden shadow-xl border border-zinc-800 flex justify-center items-center relative">
+          <div className="aspect-4/3 bg-zinc-900 rounded-3xl sm:rounded-[2.5rem] overflow-hidden shadow-xl border border-zinc-800 flex justify-center items-center relative">
             {draftImage ? (
               <img src={draftImage} className="w-full h-full object-cover" />
             ) : (
@@ -81,7 +81,7 @@ export const CameraView = ({
               ))}
             </div>
           </div>
-          <button onClick={submitTransaction} className="w-full py-4 sm:py-5 bg-yellow-400 text-black rounded-2xl sm:rounded-[2rem] font-black text-[16px] sm:text-lg flex items-center justify-center gap-2 shadow-lg active:scale-95 transition-transform hover:bg-yellow-500"><Send size={18} /> Lưu</button>
+          <button onClick={submitTransaction} className="w-full py-4 sm:py-5 bg-yellow-400 text-black rounded-2xl sm:rounded-4xl font-black text-[16px] sm:text-lg flex items-center justify-center gap-2 shadow-lg active:scale-95 transition-transform hover:bg-yellow-500"><Send size={18} /> Lưu</button>
         </div>
       </div>
     );
