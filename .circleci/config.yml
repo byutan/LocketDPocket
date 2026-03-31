@@ -40,4 +40,4 @@ workflows:
       - deploy-to-vercel:
           filters:
             branches:
-              only: main
+              only: master
