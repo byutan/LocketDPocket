@@ -21,12 +21,12 @@ export const CameraView = ({
   tags,
   setIsTagModalOpen,
   submitTransaction,
-  isCameraActive,
-  setIsCameraActive,
+  // isCameraActive,
+  // setIsCameraActive,
   cameraError,
   videoRef,
   canvasRef,
-  capturePhoto,
+  // capturePhoto,
   handleGalleryUpload,
   fileInputRef,
   handleManualEntry
@@ -88,87 +88,82 @@ export const CameraView = ({
   }
 
   // 2. IMAGE PREVIEW (FULLSCREEN KHI VỪA CHỌN HOẶC CHỤP ẢNH XONG)
+  // 2. IMAGE PREVIEW (NÚT BẤM NẰM NGOÀI BỨC ẢNH)
   if (draftImage && !isDrafting) {
     return (
-      <div className="absolute inset-0 bg-black z-40 animate-in fade-in">
-        <img src={draftImage} className="w-full h-full object-cover" />
-        <div className="absolute bottom-0 left-0 right-0 h-48 flex items-end justify-center gap-16 pb-12 bg-gradient-to-t from-black via-black/60 to-transparent">
-          <button onClick={() => setDraftImage(null)} className="w-16 h-16 bg-zinc-800/80 backdrop-blur-md border border-white/10 rounded-full flex items-center justify-center text-white active:scale-90 transition-transform shadow-xl"><X size={28} /></button>
-          <button onClick={() => setIsDrafting(true)} className="w-20 h-20 bg-yellow-400 rounded-full flex items-center justify-center text-black active:scale-90 transition-transform shadow-[0_0_40px_rgba(250,204,21,0.4)]"><Check size={36} /></button>
+      <div className="absolute inset-0 bg-[#0A0A0C] flex flex-col items-center justify-center px-5 pb-24 z-20 animate-in fade-in">
+        
+        {/* 1. KHUNG ẢNH (Chỉ chứa ảnh, không chứa gradient và nút nữa) */}
+        <div className="relative w-full max-w-sm aspect-square bg-zinc-900 rounded-[2.5rem] overflow-hidden shadow-2xl border border-zinc-800">
+          <img src={draftImage} className="w-full h-full object-cover absolute inset-0" alt="Preview" />
+        </div>
+
+        {/* 2. CỤM NÚT BẤM BÊN NGOÀI (Thay thế cho khối tàng hình lúc nãy) */}
+        {/* mt-8 giúp khoảng cách từ ảnh đến nút y hệt như màn hình Camera */}
+        <div className="flex items-center justify-center gap-16 mt-8 w-full max-w-sm z-10">
+          
+          {/* Nút Hủy (Nằm ngoài ảnh nên bỏ backdrop-blur đi cho sạch) */}
+          <button
+            onClick={() => setDraftImage(null)}
+            className="w-16 h-16 bg-zinc-800 border border-zinc-700 rounded-full flex items-center justify-center text-zinc-300 hover:bg-zinc-700 active:scale-90 transition-all shadow-xl"
+          >
+            <X size={28} />
+          </button>
+
+          {/* Nút Xác nhận */}
+          <button
+            onClick={() => setIsDrafting(true)}
+            className="w-16 h-16 bg-yellow-400 rounded-full flex items-center justify-center text-black active:scale-90 transition-transform shadow-[0_0_30px_rgba(250,204,21,0.3)]"
+          >
+            <Check size={36} />
+          </button>
+
         </div>
       </div>
     );
   }
 
-  // 3. LIVE CAMERA KHI ĐƯỢC KÍCH HOẠT (SAU KHI BẤM LOGO)
-  if (isCameraActive) {
-    return (
-      <div className="absolute inset-0 bg-black z-40 animate-in fade-in">
+  // 3. MÀN HÌNH CHÍNH 
+  return (
+    <div className="absolute inset-0 bg-[#0A0A0C] flex flex-col items-center justify-center px-5 pb-24 z-0">
+
+      {/* 1. KHUNG CAMERA: Bo góc, tỷ lệ 3:4 */}
+      <div className="relative w-full max-w-sm aspect-square bg-zinc-900 rounded-[2.5rem] overflow-hidden shadow-2xl border border-zinc-800 flex flex-col">
         {cameraError ? (
-          <div className="flex items-center justify-center h-full"><span className="text-zinc-500 font-bold text-sm">Lỗi truy cập Camera. Hãy tải ảnh từ thư viện.</span></div>
+          <div className="flex flex-col items-center justify-center h-full gap-4 opacity-50 z-10">
+            <ImageIcon size={48} className="text-zinc-500" />
+            <span className="text-zinc-500 font-bold text-sm">Lỗi Camera. Tải ảnh từ thư viện.</span>
+          </div>
         ) : (
           <>
-            <video ref={videoRef} autoPlay playsInline muted className="w-full h-full object-cover" />
+            <video ref={videoRef} autoPlay playsInline muted className="absolute inset-0 w-full h-full object-cover z-0" />
             <canvas ref={canvasRef} className="hidden" />
-            {/* Nút chụp ảnh tròn trơn màu trắng */}
-            <div className="absolute bottom-24 left-0 right-0 flex justify-center pb-8 bg-gradient-to-t from-black/80 to-transparent">
-              <button onClick={capturePhoto} className="w-20 h-20 bg-white/20 backdrop-blur-md rounded-full border-4 border-white flex items-center justify-center p-1.5 active:scale-95 transition-transform">
-                <div className="w-full h-full bg-white rounded-full"></div>
-              </button>
-            </div>
           </>
         )}
-        <button onClick={() => setIsCameraActive(false)} className="absolute top-12 left-6 w-12 h-12 bg-black/40 backdrop-blur-md text-white rounded-full flex items-center justify-center border border-white/20 active:scale-90 transition-transform shadow-lg"><X size={24} /></button>
-      </div>
-    );
-  }
-
-  // 4. MÀN HÌNH CHÍNH (IDLE CAMERA TAB - TIẾT KIỆM PIN)
-  return (
-    <div className="absolute inset-0 bg-[#0A0A0C] z-0 flex flex-col items-center justify-center px-6">
-      {/* Vòng sáng trang trí nền */}
-      <div className="absolute top-[30%] left-1/2 -translate-x-1/2 w-64 h-64 bg-yellow-500/20 rounded-full blur-[80px] pointer-events-none"></div>
-
-      {/* Cụm Logo Camera & Title */}
-      <div className="relative z-10 flex flex-col items-center -mt-20">
-        <button
-          onClick={() => setIsCameraActive(true)}
-          className="w-32 h-32 bg-gradient-to-br from-yellow-300 to-yellow-600 rounded-full shadow-[0_0_60px_rgba(234,179,8,0.35)] flex items-center justify-center mb-8 border-[4px] border-yellow-700/30 active:scale-95 transition-transform group"
-        >
-          <Camera size={56} className="text-black/90 drop-shadow-md group-hover:scale-105 transition-transform" strokeWidth={2} />
-        </button>
-        <h1 className="text-4xl font-black text-white tracking-tight mb-2">Finance <span className="text-yellow-400">Locket</span></h1>
-        <p className="text-zinc-500 font-medium text-sm text-center">Locket The Pocket</p>
       </div>
 
-      {/* Cụm Nút Công cụ (Thư viện & Nhập tay) */}
-      <div className="absolute bottom-[130px] z-20 flex justify-center w-full gap-5">
+      {/* 2. CỤM NÚT ĐIỀU KHIỂN: Nằm ngoài và phía dưới khung camera (mt-8 tạo khoảng cách) */}
+      <div className="flex items-center justify-center gap-8 mt-8 w-full max-w-sm z-10">
+
         {/* Nút Thư viện */}
-        <div className="flex flex-col items-center gap-2">
-          <div className="relative flex items-center justify-center w-[56px] h-[56px] bg-zinc-900/90 backdrop-blur-xl border border-zinc-700 rounded-full active:scale-90 transition-transform shadow-lg cursor-pointer hover:bg-zinc-800">
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleGalleryUpload}
-              ref={fileInputRef}
-              className="absolute inset-0 opacity-0 z-10 cursor-pointer"
-            />
-            <ImageIcon size={22} className="text-zinc-300 drop-shadow-md" />
-          </div>
-          <span className="text-[10px] text-zinc-500 font-bold uppercase tracking-wider">Thư viện</span>
+        <div className="relative flex items-center justify-center w-14 h-14 bg-zinc-900/90 backdrop-blur-xl border border-zinc-700 rounded-full active:scale-90 transition-transform shadow-lg cursor-pointer hover:bg-zinc-800">
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleGalleryUpload}
+            ref={fileInputRef}
+            className="absolute inset-0 opacity-0 z-10 cursor-pointer"
+          />
+          <ImageIcon size={22} className="text-zinc-300 drop-shadow-md" />
         </div>
 
-        {/* Nút Nhập tay */}
-        <div className="flex flex-col items-center gap-2">
-          <button
-            onClick={handleManualEntry}
-            className="relative flex items-center justify-center w-[56px] h-[56px] bg-zinc-900/90 backdrop-blur-xl border border-zinc-700 rounded-full active:scale-90 transition-transform shadow-lg cursor-pointer hover:bg-zinc-800"
-          >
-            <FileEdit size={22} className="text-zinc-300 drop-shadow-md" />
-          </button>
-          <span className="text-[10px] text-zinc-500 font-bold uppercase tracking-wider">Nhập tay</span>
-        </div>
+        {/* Nút Nhập Tay */}
+        <button onClick={handleManualEntry} className="relative flex items-center justify-center w-14 h-14 bg-zinc-900/90 backdrop-blur-xl border border-zinc-700 rounded-full active:scale-90 transition-transform shadow-lg cursor-pointer hover:bg-zinc-800">
+          <FileEdit size={22} className="text-zinc-300 drop-shadow-md" />
+        </button>
+
       </div>
+
     </div>
   );
 };

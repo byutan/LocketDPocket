@@ -188,6 +188,7 @@ function App() {
           isDrafting={isDrafting}
           draftImage={draftImage}
           selectedTxnDetail={selectedTxnDetail}
+          capturePhoto={capturePhoto}
         />
 
         {/* MODAL CHI TIẾT GIAO DỊCH LỊCH TRÌNH */}

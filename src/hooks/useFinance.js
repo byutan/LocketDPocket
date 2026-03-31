@@ -188,11 +188,12 @@ export const useFinanceApp = () => {
   };
 
   useEffect(() => {
-    if (isCameraActive && activeTab === 'camera' && !isDrafting && !draftImage) startCamera();
+    if (activeTab === 'camera' && !isDrafting && !draftImage) 
+      startCamera();
     else stopCamera();
     return () => stopCamera();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isCameraActive, activeTab, isDrafting, draftImage]);
+  }, [activeTab, isDrafting, draftImage]);
 
   useEffect(() => {
     if (activeTab !== 'camera') setIsCameraActive(false);
